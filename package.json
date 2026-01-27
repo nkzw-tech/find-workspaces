@@ -1,6 +1,6 @@
 {
   "name": "@nkzw/find-workspaces",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Utility to find all workspace package paths in a monorepo setup.",
   "homepage": "https://github.com/nkzw-tech/find-workspaces",
   "repository": {
