@@ -66,15 +66,6 @@ export default function findWorkspaces(root = process.cwd()) {
     return Array.from(packages);
   }
 
-  const excludeBases = new Set(
-    excludePatterns.map((pattern) =>
-      pattern
-        .replace(/\/\*\*\/\*$/, '')
-        .replace(/\/\*\*$/, '')
-        .replace(/\/\*$/, ''),
-    ),
-  );
-
   const excluded = new Set<string>();
   for (const pattern of excludePatterns) {
     const variants = new Set([
@@ -93,6 +84,8 @@ export default function findWorkspaces(root = process.cwd()) {
       }
     }
   }
+
+  const excludeBases = new Set(excluded);
 
   for (const pkg of globSync(includePatterns, {
     cwd: root,

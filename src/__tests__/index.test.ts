@@ -239,6 +239,32 @@ describe('findWorkspaces', () => {
     );
   });
 
+  test('supports negation patterns with mid-path globs', () => {
+    const root = '/repo';
+    vfs.reset();
+    vfs.setDir(root);
+    vfs.setDir(join(root, 'packages/app'));
+    vfs.setDir(join(root, 'packages/app/fixtures'));
+    vfs.setDir(join(root, 'packages/app/fixtures/bar'));
+    vfs.setDir(join(root, 'packages/app/keep'));
+    vfs.setFile(
+      join(root, 'package.json'),
+      json({
+        name: 'root',
+        workspaces: ['packages/**', '!**/fixtures'],
+      }),
+    );
+
+    const results = findWorkspaces(root);
+    expect(sortPaths(results)).toEqual(
+      sortPaths([
+        root,
+        join(root, 'packages/app'),
+        join(root, 'packages/app/keep'),
+      ]),
+    );
+  });
+
   test('returns only root when no workspaces configured', () => {
     const root = '/repo';
     vfs.reset();
